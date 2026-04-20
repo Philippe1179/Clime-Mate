@@ -117,37 +117,6 @@
         <!-- Template for weather card -->
     </div>
 
-    <!-- Local storage script for coordinates -->
-    <script>
-      window.onload = function() {
-        const savedLat = localStorage.getItem('latitude');
-        const savedLon = localStorage.getItem('longitude');
-
-        if (savedLat && savedLon) {
-          document.getElementById('lat').value = savedLat;
-          document.getElementById('lon').value = savedLon;
-        }
-      };
-
-      document.getElementById('searchBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        const lat = document.getElementById('lat').value;
-        const lon = document.getElementById('lon').value;
-
-        if (lat && lon) {
-          // Store the values inside localStorage
-          localStorage.setItem('latitude', lat);
-          localStorage.setItem('longitude', lon);
-
-          // Example of formatting date and time
-          const date = new Date();
-          const formattedDate = date.toLocaleString('en-US', { timeZone: 'America/New_York' });
-          console.log(formattedDate); // Replace with actual usage
-        } else {
-          document.getElementById('weather-alert').classList.remove('hidden');
-        }
-      });
-    </script>
 
     <hr>
 
@@ -355,7 +324,6 @@
 
     <!-- JavaScript files -->
     <script src="weather-alerts/weather-alerts.js"></script>
-    <script src="script.js"></script>
     <script src="javascript/api-request.js"></script>
   </body>
   <footer>
