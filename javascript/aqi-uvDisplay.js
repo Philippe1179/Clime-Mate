@@ -353,10 +353,10 @@ async function displayWeather(data) {
     }
 }
 
-// Function to fetch hourly forecast using Weatherbit.io
+// Function to fetch hourly forecast using OpenWeatherMap free forecast API
 function getHourlyForecast(lat, lon) {
-    const weatherbitApiKey = '11db04fedfef47a38aefad4afbc440c1';
-    const hourlyForecastUrl = `https://api.weatherbit.io/v2.0/forecast/hourly?lat=${lat}&lon=${lon}&key=${weatherbitApiKey}&hours=24`;
+    const apiKey = '66e860199c0f6438c737b4997bf7ba6d';
+    const hourlyForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial&cnt=8`;
 
     fetch(hourlyForecastUrl)
         .then(response => {
@@ -364,32 +364,30 @@ function getHourlyForecast(lat, lon) {
             return response.json();
         })
         .then(data => {
-            console.log('Weatherbit Hourly Forecast API Response:', data); // Debug log
-            displayHourlyForecast(data.data);
+            displayHourlyForecast(data.list);
         })
         .catch(error => {
             console.error('Error fetching hourly forecast data:', error);
-            alert('Error fetching hourly forecast data. Please try again.');
         });
 }
 
 // Function to display hourly forecast
 function displayHourlyForecast(hourlyData) {
     const hourlyForecastDiv = document.getElementById('hourly-forecast');
-    hourlyForecastDiv.innerHTML = ''; // Clear previous content
+    hourlyForecastDiv.innerHTML = '';
 
     hourlyData.forEach(item => {
-        const dateTime = new Date(item.timestamp_local); // Local timestamp from Weatherbit
+        const dateTime = new Date(item.dt * 1000);
         const localTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
-        const temperature = Math.round(item.temp); // Temperature in Celsius
-        const iconCode = item.weather.icon;
-        const iconUrl = `https://www.weatherbit.io/static/img/icons/${iconCode}.png`;
+        const temperature = Math.round(item.main.temp);
+        const iconCode = item.weather[0].icon;
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
 
         const hourlyItemHtml = `
             <div class="hourly-item">
                 <span>${localTime}</span>
                 <img src="${iconUrl}" alt="Hourly Weather Icon">
-                <span>${temperature}°C</span>
+                <span>${temperature}°F</span>
             </div>
         `;
 
